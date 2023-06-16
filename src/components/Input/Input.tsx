@@ -1,0 +1,105 @@
+import React, { useCallback } from "react";
+import { Flex } from "../Flex";
+import { Typography } from "../Typography";
+import { InputProps } from "./Input.types";
+import { InputContainer, InputElement, InputIcon } from "./Input.elements";
+
+export const Input = React.forwardRef<any, InputProps>(
+  (
+    {
+      $containerProps,
+      $withEffect = true,
+      $placeholder,
+      $error,
+      $fill,
+      $hint,
+      $withBorder,
+      $prefixProps,
+      $shape,
+      $size,
+      $suffixProps,
+      $variant,
+      $disabled,
+      $prefix,
+      $suffix,
+      ...props
+    },
+    ref
+  ) => {
+    const Prefix = useCallback(() => {
+      return (
+        <InputIcon
+          $type="left"
+          $disabled={$disabled}
+          $size={$size}
+          $shape={$shape}
+          {...$prefixProps}
+        >
+          {$prefix}
+        </InputIcon>
+      );
+    }, [$prefix, $prefixProps, $disabled, $shape, $size]);
+    const Suffix = useCallback(() => {
+      return (
+        <InputIcon
+          $type="right"
+          $shape={$shape}
+          $disabled={$disabled}
+          {...$suffixProps}
+        >
+          {$suffix}
+        </InputIcon>
+      );
+    }, [$suffix, $shape, $suffixProps, $disabled]);
+
+    return (
+      <Flex {...props}>
+        <InputContainer
+          $withBorder={$withBorder}
+          $size={$size}
+          $shape={$shape}
+          $fill={$fill}
+          $variant={$variant}
+          $error={$error}
+          {...$containerProps}
+        >
+          {$prefix && <Prefix />}
+          <InputElement
+            $size={$size}
+            $variant={$variant}
+            $fill={$fill}
+            $disabled={$disabled}
+            placeholder={$placeholder}
+            ref={ref}
+            {...props}
+          />
+          {$suffix && <Suffix />}
+        </InputContainer>
+        {$hint && (
+          <Typography $size="caption10" color="#737373" mt={1}>
+            {$hint}
+          </Typography>
+        )}
+        {$error && (
+          <Typography
+            $capitalizeFirstLetter
+            $size="caption10"
+            color="red"
+            mt={1}
+          >
+            {$error}
+          </Typography>
+        )}
+      </Flex>
+    );
+  }
+);
+
+Input.defaultProps = {
+  $size: "default",
+  $variant: "light",
+  $disabled: false,
+  $fill: false,
+  $shape: "default",
+  $withBorder: true,
+};
