@@ -29,7 +29,6 @@ const TypographyElement = styled.span<TypographyProps>`
   display: inline-block;
   ${({ $size = "body30", theme, color, $variant = "primary" }) =>
     css`
-      color: ${color || theme.type[$variant]?.button?.placeholder};
       font-size: ${theme.typography[$size as TypographyType].fontSize}px;
       font-weight: ${theme.typography[$size as TypographyType].fontWeight};
     `};
