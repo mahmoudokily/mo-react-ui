@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Meta, StoryObj } from "@storybook/react";
 import { Box } from "./Box";
 
@@ -17,29 +17,32 @@ Primary.args = {
   $variant: "primary",
 };
 
-const ClickableBox = () => {
+const ClickableBox = (props) => {
   const [amount, setAmount] = useState<number>(0);
   const handleClick = () => {
     setAmount((prev) => prev + 1);
   };
+  useEffect(() => {
+    setAmount(0);
+  }, [props]);
 
   return (
     <Box>
       <Box
         $variant="primary"
         $shape="circle"
-        width={200}
-        height={200}
-        $clickable
-        onClick={handleClick}
+        width={300}
+        height={300}
+        {...(props.$clickable ? { onClick: handleClick } : {})}
+        $flex
         justifyContent="center"
         alignItems="center"
-        display="flex"
+        {...props}
       >
         Click Me
       </Box>
       {amount > 0 ? (
-        <Box display="inline-block">clicked {amount} :)</Box>
+        <Box display="inline-block">Clicked {amount} :)</Box>
       ) : null}
     </Box>
   );
@@ -51,6 +54,4 @@ Clickable.args = {
   width: 200,
   height: 200,
   $clickable: true,
-  $shape: "circle",
-  $variant: "primary",
 };
