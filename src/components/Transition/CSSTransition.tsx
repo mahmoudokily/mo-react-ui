@@ -12,7 +12,7 @@ if (typeof global !== "undefined")
   (global as any).srcCSSTransitionCleanID = () => (id = 0);
 
 const style = {
-  "src-overlay-fixed-box-up": (
+  "overlay-fixed-box-up": (
     transition: any,
     _duration: any,
     _type: any,
@@ -21,20 +21,20 @@ const style = {
         @media(max-width:${theme?.grid.breakpoint.medium - 1}px) {
             will-change: opacity;
 
-            &.src-overlay-fixed-box-up-show {
+            &overlay-fixed-box-up-show {
                 opacity: 0;
             }
 
-            &.src-overlay-fixed-box-up-show-active {
+            &overlay-fixed-box-up-show-active {
                 transition: opacity ${transition};
                 opacity: 1;
             }
 
-            &.src-overlay-fixed-box-up-hide {
+            &overlay-fixed-box-up-hide {
                 opacity: 1;
             }
 
-            &.src-overlay-fixed-box-up-hide-active {
+            &overlay-fixed-box-up-hide-active {
                 transition: opacity ${transition};
                 opacity: 0;
             }
@@ -45,24 +45,24 @@ const style = {
                 will-change: opacity, transform;
             }
             
-            &.src-overlay-fixed-box-up-show > * {
+            &overlay-fixed-box-up-show > * {
                 opacity: 0;
                 transform: translateY(60px);
             }
     
-            &.src-overlay-fixed-box-up-show-active > * {
+            &overlay-fixed-box-up-show-active > * {
                 transition: ${transition};
                 transition-property: opacity, transform;
                 opacity: 1;
                 transform: translateY(0);
             }
     
-            &.src-overlay-fixed-box-up-hide > * {
+            &overlay-fixed-box-up-hide > * {
                 opacity: 1;
                 transform: translateY(0);
             }
     
-            &.src-overlay-fixed-box-up-hide-active > * {
+            &overlay-fixed-box-up-hide-active > * {
                 transition: ${transition};
                 transition-property: opacity, transform;
                 opacity: 0;
@@ -70,7 +70,7 @@ const style = {
             }
         }
     `,
-  "src-overlay-modal-down": (
+  "overlay-modal-down": (
     transition: any,
     _duration: any,
     _type: any,
@@ -82,7 +82,7 @@ const style = {
             will-change: transform;
         }
 
-        &.src-overlay-modal-down-show  {
+        &overlay-modal-down-show  {
             opacity: 0;
 
             > * {
@@ -90,7 +90,7 @@ const style = {
             }
         }
         
-        &.src-overlay-modal-down-show-active {
+        &overlay-modal-down-show-active {
             transition: opacity ${transition};
             opacity: 1;
 
@@ -100,7 +100,7 @@ const style = {
             }
         }
 
-        &.src-overlay-modal-down-hide {
+        &overlay-modal-down-hide {
             opacity: 1;
 
             > * {
@@ -108,7 +108,7 @@ const style = {
             }
         }
 
-        &.src-overlay-modal-down-hide-active {
+        &overlay-modal-down-hide-active {
             transition: opacity ${transition};
             opacity: 0;
 
@@ -118,119 +118,119 @@ const style = {
             }
         }
     `,
-  "src-fade": (transition: any) => `
+  fade: (transition: any) => `
         will-change: opacity;
 
-        &.src-fade-show {
+        &fade-show {
             opacity: 0;
         }
 
-        &.src-fade-show-active {
+        &fade-show-active {
             transition: opacity ${transition};
             opacity: 1;
         }
 
-        &.src-fade-hide {
+        &fade-hide {
             opacity: 1;
         }
 
-        &.src-fade-hide-active {
+        &fade-hide-active {
             transition: opacity ${transition};
             opacity: 0;
         }
     `,
-  "src-dp-fade-in": (transition: any) => `
+  "dp-fade-in": (transition: any) => `
         will-change: opacity, transform;
 
-        &.src-dp-fade-in-show {
+        &dp-fade-in-show {
             opacity: 0;
             transform: scale(.85);
         }
 
-        &.src-dp-fade-in-show-active {
+        &dp-fade-in-show-active {
             transition: ${transition};
             transition-property: opacity, transform;
             opacity: 1;
             transform: scale(1);
         }
 
-        &.src-dp-fade-in-hide {
+        &dp-fade-in-hide {
             opacity: 1;
             transform: scale(1);
         }
 
-        &.src-dp-fade-in-hide-active {
+        &dp-fade-in-hide-active {
             transition: opacity ${transition};
             transition-property: opacity, transform;
             opacity: 0;
             transform: scale(.85);
         }
     `,
-  "src-dp-fade-out": (transition: any) => `
+  "dp-fade-out": (transition: any) => `
         will-change: opacity, transform;
 
-        &.src-dp-fade-out-show {
+        &dp-fade-out-show {
             opacity: 0;
             transform: scale(1.15);
         }
 
-        &.src-dp-fade-out-show-active {
+        &dp-fade-out-show-active {
             transition: ${transition};
             transition-property: opacity, transform;
             opacity: 1;
             transform: scale(1);
         }
 
-        &.src-dp-fade-out-hide {
+        &dp-fade-out-hide {
             opacity: 1;
             transform: scale(1);
         }
 
-        &.src-dp-fade-out-hide-active {
+        &dp-fade-out-hide-active {
             transition: opacity ${transition};
             transition-property: opacity, transform;
             opacity: 0;
             transform: scale(1.15);
         }
     `,
-  "src-button-loading": (transition: any) => `
-        &.src-button-loading-show {
+  "button-loading": (transition: any) => `
+        &button-loading-show {
             opacity: 0;
             transform: scale(.5);
 
-            & ~ *:not(.src-wave-ripple) {
+            & ~ *:not(wave-ripple) {
                 visibility: visible !important;
             }
         }
 
-        &.src-button-loading-show-active {
+        &button-loading-show-active {
             transition: ${transition};
             transition-property: opacity, transform;
             opacity: 1;
             transform: scale(1);
 
-            & ~ *:not(.src-wave-ripple) {
+            & ~ *:not(wave-ripple) {
                 transition: transform ${transition};
                 transform: translateX(100%);
             }
         }
 
-        &.src-button-loading-hide {
+        &button-loading-hide {
             opacity: 1;
             transform: scale(1);
 
-            & ~ *:not(.src-wave-ripple) {
+            & ~ *:not(wave-ripple) {
                 transform: translateX(100%);
             }
         }
 
-        &.src-button-loading-hide-active {
+        &button-loading-hide-active {
             transition: ${transition};
             transition-property: opacity, transform;
             opacity: 0;
             transform: scale(.5);
 
-            & ~ *:not(.src-wave-ripple) {
+            & ~ *:not(wave-ripple) {
                 transition: transform ${transition};
                 transform: translateX(0%);
             }
@@ -247,22 +247,22 @@ interface GlobalStyleProps {
 
 const GlobalStyle = createGlobalStyle<GlobalStyleProps>(
   ({ theme, id, className, type, duration }) => `
-    .src-transition-${id}: {
-        ${String(
+    transition-${id}: {
+        ${
           (style as any)[className as string]
             ? (style as any)[className](
                 `${duration}ms 0ms ${type}`,
                 duration,
                 type,
-                (theme as any).src
+                theme as any
               )
             : ""
-        )}
+        }
     } 
 `
 );
 
-export interface Props {
+export interface CssTransitionProps {
   children: JSX.Element;
   $status?: boolean;
   $display?: boolean;
@@ -278,10 +278,10 @@ export interface Props {
   $afterHide?: () => void;
 }
 
-const CSSTransition: React.FC<Props> = ({
+const CSSTransition: React.FC<CssTransitionProps> = ({
   children,
-  $status,
-  $display,
+  $status = false,
+  $display = false,
   $className,
   $type = "ease-in-out",
   $duration = 200,
@@ -299,7 +299,7 @@ const CSSTransition: React.FC<Props> = ({
       if (!$showAnimation) return resolve();
 
       DOMHelper.requestAnimationFrame.call(window, () => {
-        el.classList.add(`src-transition-${id}`, `${$className}-show`);
+        el.classList.add(`transition-${id}`, `${$className}-show`);
         let ignored = el.offsetWidth;
         el.classList.add(`${$className}-show-active`);
 
@@ -307,7 +307,7 @@ const CSSTransition: React.FC<Props> = ({
           el.classList.remove(
             `${$className}-show-active`,
             `${$className}-show`,
-            `src-transition-${id}`
+            `transition-${id}`
           );
           resolve();
         }, $duration);
@@ -317,9 +317,10 @@ const CSSTransition: React.FC<Props> = ({
   const hide = (el: HTMLElement): Promise<void> =>
     new Promise((resolve) => {
       if (!$hideAnimation) return resolve();
+      console.log(el);
 
       DOMHelper.requestAnimationFrame.call(window, () => {
-        el.classList.add(`src-transition-${id}`, `${$className}-hide`);
+        el.classList.add(`transition-${id}`, `${$className}-hide`);
         let ignored = el.offsetWidth;
         el.classList.add(`${$className}-hide-active`);
 
@@ -327,7 +328,7 @@ const CSSTransition: React.FC<Props> = ({
           el.classList.remove(
             `${$className}-hide`,
             `${$className}-hide-active`,
-            `src-transition-${id}`
+            `transition-${id}`
           );
           resolve();
         }, $duration);

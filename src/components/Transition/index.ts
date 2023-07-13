@@ -1,4 +1,3 @@
-export * from "./CSSTransition";
+export * as default from "./CSSTransition";
 export * from "./SlideTransition";
 export * from "./TransitionEl";
-export * from "./Transitions.types";

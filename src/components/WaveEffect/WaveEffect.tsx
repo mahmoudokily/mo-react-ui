@@ -9,7 +9,7 @@ let id = 0;
 const getID = () => (process.env.NODE_ENV !== "test" ? id++ : 0);
 
 if (typeof global !== "undefined")
-  (global as any).srcWaveEffectCleanID = () => (id = 0);
+  (global as any).WaveEffectCleanID = () => (id = 0);
 type EffectVariant = "dark" | "light";
 
 interface GlobalStyleProps {
@@ -19,11 +19,11 @@ interface GlobalStyleProps {
 
 const GlobalStyle = createGlobalStyle<GlobalStyleProps>(
   ({ theme, id, $variant = "light" }) => `
-    *[data-src-wave-effect="${id}"] {
+    *[data-wave-effect="${id}"] {
         position: relative;
         overflow: hidden;
         -webkit-tap-highlight-color: transparent;
-        .src-wave-ripple {
+        .wave-ripple {
             position: absolute;
             width: 100px;
             height: 100px;
@@ -56,7 +56,7 @@ const WaveEffect: React.FC<WaveEffectProps> = ({
       removeEventListener();
       if (lastRippleEl) {
         const date = parseInt(
-          lastRippleEl.getAttribute("data-src-end-time") as string
+          lastRippleEl.getAttribute("data-end-time") as string
         );
         if (date < new Date().getTime()) removeRippleElement(lastRippleEl);
       }
@@ -65,13 +65,10 @@ const WaveEffect: React.FC<WaveEffectProps> = ({
 
   useEffect(() => {
     if (itemRef?.current) {
-      itemRef?.current?.setAttribute(
-        "data-src-wave-effect",
-        currentId.toString()
-      );
+      itemRef?.current?.setAttribute("data-wave-effect", currentId.toString());
     }
 
-    return () => itemRef?.current?.removeAttribute("data-src-wave-effect");
+    return () => itemRef?.current?.removeAttribute("data-wave-effect");
   }, [itemRef]);
 
   const mouseUp = (e: MouseEvent): void => {
@@ -158,9 +155,9 @@ const WaveEffect: React.FC<WaveEffectProps> = ({
       top = e.clientY - rect.top;
     }
 
-    rippleEl.classList.add("src-wave-ripple");
+    rippleEl.classList.add("wave-ripple");
     rippleEl.setAttribute(
-      "data-src-end-time",
+      "data-end-time",
       (new Date().getTime() + 275).toString()
     );
     containerEl.appendChild(rippleEl);
@@ -195,7 +192,7 @@ const WaveEffect: React.FC<WaveEffectProps> = ({
       <GlobalStyle id={currentId} $variant={$variant as EffectVariant} />
       {React.cloneElement(children, {
         ref: itemRef,
-        "data-src-wave-effect": String(currentId),
+        "data-wave-effect": String(currentId),
         onMouseDown: mouseDown,
         onTouchStart: touchStart,
         onMouseUp: mouseUp,
