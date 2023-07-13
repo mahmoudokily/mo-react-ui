@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { ThemeProps, Value, defaultProps } from "../../shared";
-import { Props } from "./Tooltip.types";
+import { TProps } from "./Tooltip.types";
 import { ArrowElement } from "../Arrow";
 
 const customKeys = (v: Value, t: any) => `
@@ -8,7 +8,7 @@ const customKeys = (v: Value, t: any) => `
         font-size: ${t.tooltip.fontSize[v]};
     `;
 
-export const TooltipElement = styled.div<Props>`
+export const TooltipElement = styled.div<TProps>`
   ${({ theme, $variant, arrow }) => `
    position: fixed;
     z-index: ${theme.zIndex.tooltip};

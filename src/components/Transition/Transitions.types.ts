@@ -2,7 +2,7 @@ import { Value } from "../../shared";
 
 export type TransitionProps = {
   children: JSX.Element;
-  $status?: boolean;
+  $status: boolean;
   $display?: boolean;
   $value?: Value;
   $beforeShow?: () => Promise<void>;

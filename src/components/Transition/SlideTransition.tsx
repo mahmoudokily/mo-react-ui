@@ -11,19 +11,19 @@ let id = 0;
 const getID = () => id++;
 
 if (typeof global !== "undefined")
-  (global as any).srcSlideTransitionCleanID = () => (id = 0);
+  (global as any).SlideTransitionCleanID = () => (id = 0);
 
 const GlobalStyle = createGlobalStyle<GlobalStyleProps>(
   ({ idd, type, duration }) => `
-    .src-slide-${idd} {
-        &.src-slide-enter,
-        &.src-slide-leave-active {
+    .slide-${idd} {
+        &slide-enter,
+        &slide-leave-active {
             overflow: hidden !important;
             box-sizing: border-box !important;
         }
 
-        &.src-slide-enter:not(.src-slide-enter-active),
-        &.src-slide-leave-active {
+        &slide-enter:not(slide-enter-active),
+        &slide-leave-active {
             height: 0 !important;
             padding-top: 0 !important;
             padding-bottom: 0 !important;
@@ -31,8 +31,8 @@ const GlobalStyle = createGlobalStyle<GlobalStyleProps>(
             margin-bottom: 0 !important;
         }
 
-        &.src-slide-enter-active,
-        &.src-slide-leave-active {
+        &slide-enter-active,
+        &slide-leave-active {
             transition: ${duration}ms 0s ${type};
             transition-property: height, padding, margin;
         }
@@ -57,17 +57,17 @@ export const SlideTransition: React.FC<TransitionProps> = ({
     new Promise((resolve) => {
       const className: string = el.className || "";
       const style: string = el.getAttribute("style") || "";
-      el.classList.add(`src-slide-${idd}`);
+      el.classList.add(`slide-${idd}`);
       el.style.opacity = "0";
       const height: number = el.offsetHeight;
 
       DOMHelper.requestAnimationFrame.call(window, () => {
-        el.classList.add("src-slide-enter");
+        el.classList.add("slide-enter");
 
         DOMHelper.requestAnimationFrame.call(window, () => {
           el.style.opacity = "1";
           el.style.height = `${height}px`;
-          el.classList.add("src-slide-enter-active");
+          el.classList.add("slide-enter-active");
 
           DOMHelper.addEventListenerOnce(el, DOMHelper.TRANSITION_END, () => {
             el.className = className;
@@ -82,13 +82,13 @@ export const SlideTransition: React.FC<TransitionProps> = ({
     new Promise((resolve) => {
       const className: string = el.className || "";
       const style: string = el.getAttribute("style") || "";
-      el.classList.add(`src-slide-${idd}`);
+      el.classList.add(`slide-${idd}`);
 
       DOMHelper.requestAnimationFrame.call(window, () => {
         el.style.height = `${el.offsetHeight}px`;
 
         DOMHelper.requestAnimationFrame.call(window, () => {
-          el.classList.add("src-slide-leave-active");
+          el.classList.add("slide-leave-active");
 
           DOMHelper.addEventListenerOnce(el, DOMHelper.TRANSITION_END, () => {
             el.className = className;

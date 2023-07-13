@@ -13,7 +13,7 @@ export interface TooltipProps extends DefaultProps {
   $hideAnimation?: boolean;
 }
 
-export interface Props extends DefaultProps {
+export interface TProps extends DefaultProps {
   $variant: string;
   arrow: string;
   $size: Size;

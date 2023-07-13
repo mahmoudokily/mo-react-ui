@@ -14,8 +14,7 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "types": ["node", "lodash"],
-    "composite": true
+    "types": ["node", "lodash"]
   },
   "exclude": [
     "dist",
