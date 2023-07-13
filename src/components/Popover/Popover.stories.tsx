@@ -9,7 +9,6 @@ const PopoverElement = () => {
   return (
     <Popover position="right" status={status} setStatus={setStatue}>
       <Button> Clickme</Button>
-
       <PopoverBody style={{ width: 200, height: 200, backgroundColor: "red" }}>
         <PopoverHeader>header</PopoverHeader>
         test
