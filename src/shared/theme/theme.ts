@@ -11,6 +11,7 @@ import { grid } from "./grid";
 import { overlay } from "./overlay/overlay";
 import { zIndex } from "./zIndex/zIndex";
 import { popover } from "./popover/popover";
+import { pagination } from "./pagination/pagination";
 export const theme: any = {
   colors: colors,
   button: button,
@@ -24,4 +25,5 @@ export const theme: any = {
   overlay: overlay,
   zIndex: zIndex,
   popover: popover,
+  pagination: pagination,
 };

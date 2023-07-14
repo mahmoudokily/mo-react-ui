@@ -9,6 +9,7 @@ import { BreakPointsProps } from "./breakpoint/breakpoint.types";
 import { GridProps } from "./grid/grid.types";
 import { overlayProps } from "./overlay/overlay.types";
 import { ZIndexProps } from "./zIndex/zIndex.types";
+import { Pagination } from "./pagination/pagination.types";
 import { PopoverProps } from "./popover/Popover.types";
 
 export interface ThemeProps {
@@ -24,6 +25,7 @@ export interface ThemeProps {
   overlay: overlayProps;
   zIndex: ZIndexProps;
   popover: PopoverProps;
+  pagination: Pagination;
   //   typography: Typographies;
   //   button: ButtonProps;
   //   type: Types;
