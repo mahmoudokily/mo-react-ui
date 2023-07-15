@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Meta, StoryObj } from "@storybook/react";
 import { Menu } from "./";
 
@@ -8,50 +8,85 @@ const meta: Meta<typeof Menu> = {
 };
 export default meta;
 
-type Story = StoryObj<typeof Menu>;
+type Story = StoryObj<typeof MenuElement>;
 
-export const SubMenu: Story = (args: any) => <Menu {...args} />;
+const MenuElement = (props) => {
+  const [active, setActive] = useState<string | null>(null);
+
+  const onClickItem = (item: string) => () => {
+    setActive(item);
+    console.log(item);
+  };
+
+  return <Menu onClickItem={onClickItem} active={active} {...props} />;
+};
+export const SubMenu: Story = (args: any) => <MenuElement {...args} />;
 SubMenu.args = {
   items: [
-    { title: "home" },
+    {
+      label: "home",
+      path: "/home",
+    },
 
     {
-      title: "session",
-      submenu: [
+      label: "Sessions",
+      path: "Sessions",
+      subMenu: [
         {
-          title: "sessions",
+          label: "sessions",
           path: "/sessions",
           roles: ["test"],
         },
         {
-          title: "activities",
+          label: "activities",
           path: "/activities",
           roles: ["test"],
         },
         ,
         {
-          title: "SDRs",
+          label: "SDRs",
           path: "/sdrs",
           roles: ["test"],
+
+          subMenu: [
+            {
+              label: "locations",
+              path: "/locations",
+              roles: ["test"],
+            },
+            {
+              label: "EVCs",
+              path: "/evcs",
+              roles: ["test"],
+            },
+
+            {
+              label: "EVSEs",
+              path: "/evses",
+              roles: ["test"],
+            },
+          ],
         },
       ],
     },
     {
-      title: "infrastructure",
-      submenu: [
+      label: "infrastructure",
+      path: "",
+
+      subMenu: [
         {
-          title: "locations",
+          label: "locations",
           path: "/locations",
           roles: ["test"],
         },
         {
-          title: "EVCs",
+          label: "EVCs",
           path: "/evcs",
           roles: ["test"],
         },
 
         {
-          title: "EVSEs",
+          label: "EVSEs",
           path: "/evses",
           roles: ["test"],
         },

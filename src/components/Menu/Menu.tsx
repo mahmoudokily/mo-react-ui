@@ -1,110 +1,217 @@
 import { Flex } from "../Flex";
-import React, { useEffect, useRef, useState } from "react";
-import {
-  DropdownProps,
-  MenuItem,
-  MenuItemsProps,
-  MenuProps,
-} from "./Menu.types";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { MenuItem, MenuProps } from "./Menu.types";
 import { styled } from "styled-components";
-// import "./menuStyle.css";
-const ListItem = styled.li<{ active: boolean; submenu?: boolean }>`
-  ${({ active, submenu = false }) =>
-    active && submenu
+import { Link } from "react-router-dom";
+
+const ListItem = styled.li<{ selected?: boolean; activeParent?: boolean }>`
+  cursor: pointer;
+  ${({ selected, theme, activeParent }) =>
+    selected
       ? `
-  background-color: #f2f2f2;
+ background-color:red;
+ 
+`
+      : ``};
+  ${({ activeParent }) =>
+    activeParent
+      ? `
+      color:red
+      
+      `
+      : ``}
+`;
+const ListContainer = styled(Flex)``;
+const List = styled.ul<{ isOpen?: boolean }>`
+  ${({ isOpen }) =>
+    isOpen
+      ? `
 
 
 `
       : `
-        
-   
-       `}
-  cursor: pointer;
-  padding: 5px;
-`;
-const List = styled.ul<{ active?: boolean }>`
+display:none;
+opacity:0;
+
+`}
   list-style: none;
-  padding: 0px;
-  margin: 0px;
-  > li ul li {
-    ${({ active }) =>
-      active
-        ? `
-   border :1px solid red;
-   color:blue;
-   
-   `
-        : ``}
-  }
+  padding: 0;
+  margin: 0;
+  animation: all 3s fade-in;
 `;
 
-export const Menu: React.FC<any> = ({ items }) => {
-  const [menuItems, setMenuItems] = useState<MenuItem[]>(items);
-  const [activeTab, setActiveTab] = useState<string | null>(null);
-  const [activeSubTab, setActiveSubTab] = useState<number | null>(null);
-  const handleToggleTab = (tab: string) => () => {
-    console.log(tab, activeTab);
-    if (activeTab === tab) {
-      return setActiveTab(null);
-    }
-    setActiveTab(tab);
-  };
-  const handleToggleSubTab = (subTab: number) => () => {
-    setActiveSubTab(subTab);
-  };
-
+const ItemSubMenus = ({
+  item,
+  isOpen,
+  onClickItem,
+  activeItem,
+}: {
+  item: MenuItem;
+  isOpen: boolean;
+  activeItem: string;
+  onClickItem: (item: string) => () => void;
+}) => {
   return (
-    <List>
-      {menuItems?.map((item: any, index) => {
-        console.log(index);
-        return item.submenu ? (
-          <ListItem
-            active={item?.submenu?.some((it: any) => it.title === activeSubTab)}
-            key={index}
-          >
-            <span onClick={handleToggleTab(item.title)}>{item.title}</span>{" "}
-            <List
-              className="menu-items"
-              style={{
-                marginLeft: 10,
-                display: item?.title === activeTab ? "block" : "none",
-              }}
-            >
-              {item?.submenu?.map((subItem: any, index: number) => (
-                <ListItem submenu active={subItem.title === activeSubTab}>
-                  <span
-                    // href="/#"
-                    // style={{ color: activePath ? "red" : "black" }}
-                    onClick={(e: any) => {
-                      e.preventDefault();
-                      if (activeSubTab === subItem.title) {
-                        return;
-                      }
-                      setActiveSubTab(subItem.title);
-                    }}
-                  >
-                    {" "}
-                    {subItem.title}{" "}
-                  </span>
-                </ListItem>
-              ))}{" "}
-            </List>
-          </ListItem>
-        ) : (
-          <ListItem
-            submenu
-            active={activeTab === item.title && activeSubTab === item.title}
-            onClick={(e: any) => {
-              setActiveTab(item.title);
-              setActiveSubTab(item.title);
-            }}
-          >
-            {" "}
-            {item.title}{" "}
-          </ListItem>
-        );
-      })}
+    <List isOpen={isOpen}>
+      {item?.subMenu?.map((item: MenuItem, index) => (
+        <ListItem
+          key={index}
+          selected={item.path === activeItem}
+          onClick={onClickItem(item.path)}
+        >
+          {item.label}
+        </ListItem>
+      ))}
     </List>
   );
 };
+export const Menu: React.FC<MenuProps> = ({ items, onClickItem, active }) => {
+  const [activeContainer, setActiveContainer] = useState<number | null>(null);
+
+  const handleOpenContainer = (index: number) => {
+    setActiveContainer((prev) => (prev === index ? null : index));
+  };
+
+  if (!items.length) return null;
+  return items?.map((item: MenuItem, index) => {
+    return (
+      // <List isOpen key={index}>
+      //   {item?.subMenu ? (
+      //     <>
+      //       <ListItem
+      //         activeParent={item.subMenu.some(
+      //           (item: MenuItem) => item.path === active
+      //         )}
+      //         onClick={() => handleOpenContainer(index)}
+      //       >
+      //         {item.label}
+      //       </ListItem>
+      //       <ItemSubMenus
+      //         onClickItem={onClickItem}
+      //         item={item}
+      //         isOpen={activeContainer === index}
+      //         activeItem={active}
+      //       />
+      //     </>
+      //   ) : (
+      //     <ListItem
+      //       selected={item.path === active}
+      //       onClick={onClickItem(item.path)}
+      //     >
+      //       {item.label}
+      //     </ListItem>
+      //   )}
+      // </List>
+      <ul className="menus">
+        {items.map((menu, index) => {
+          const depthLevel = 0;
+          return <MenuItems items={menu} key={index} depthLevel={depthLevel} />;
+        })}
+      </ul>
+    );
+  });
+};
+
+const MenuItems = ({ items, depthLevel }: any) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const ref = useRef<any>();
+
+  // useEffect(() => {
+  //   useEffect(() => {
+  //     const handler = (event: any) => {
+  //       if (isOpen && ref.current && !ref.current.contains(event.target)) {
+  //         setIsOpen(false);
+  //       }
+  //     };
+  //     document.addEventListener("mousedown", handler);
+  //     document.addEventListener("touchstart", handler);
+  //     return () => {
+  //       // Cleanup the event listener
+  //       document.removeEventListener("mousedown", handler);
+  //       document.removeEventListener("touchstart", handler);
+  //     };
+  //   }, [isOpen]);
+  // }, []);
+  const onMouseEnter = () => {
+    window.innerWidth > 960 && setIsOpen(true);
+  };
+
+  const onMouseLeave = () => {
+    window.innerWidth > 960 && setIsOpen(false);
+  };
+
+  const closeDropdown = () => {
+    isOpen && setIsOpen(false);
+  };
+
+  return (
+    <li
+      className="menu-items"
+      ref={ref}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onClick={closeDropdown}
+    >
+      {items.path && items.submenu ? (
+        <>
+          <button
+            type="button"
+            aria-haspopup="menu"
+            aria-expanded={isOpen ? "true" : "false"}
+            onClick={() => setIsOpen((prev) => !prev)}
+          >
+            {window.innerWidth < 960 && depthLevel === 0 ? (
+              items.label
+            ) : (
+              <Link to={items.url}>{items.title}</Link>
+            )}
+
+            {depthLevel > 0 && window.innerWidth < 960 ? null : depthLevel >
+                0 && window.innerWidth > 960 ? (
+              <span>&raquo;</span>
+            ) : (
+              <span className="arrow" />
+            )}
+          </button>
+          <Dropdown
+            depthLevel={depthLevel}
+            submenus={items.submenu}
+            isOpen={isOpen}
+          />
+        </>
+      ) : !items.path && items.submenu ? (
+        <>
+          <button
+            type="button"
+            aria-haspopup="menu"
+            aria-expanded={isOpen ? "true" : "false"}
+            onClick={() => setIsOpen((prev) => !prev)}
+          >
+            {items.label}{" "}
+            {depthLevel > 0 ? <span>&raquo;</span> : <span className="arrow" />}
+          </button>
+          <Dropdown
+            depthLevel={depthLevel}
+            submenus={items.submenu}
+            isOpen={isOpen}
+          />
+        </>
+      ) : (
+        <span>{items.label}</span>
+      )}
+    </li>
+  );
+};
+const Dropdown = ({ submenus, isOpen, depthLevel }: any) => {
+  depthLevel = depthLevel + 1;
+  const dropdownClass = depthLevel > 1 ? "dropdown-submenu" : "";
+  return (
+    <ul className={`dropdown ${dropdownClass} ${isOpen ? "show" : ""}`}>
+      {submenus.map((submenu: MenuItem[], index: number) => (
+        <MenuItems items={submenu} key={index} depthLevel={depthLevel} />
+      ))}
+    </ul>
+  );
+};
+
+export default Dropdown;
