@@ -2,69 +2,83 @@ import { Flex } from "../Flex";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { MenuItem, MenuProps } from "./Menu.types";
 import { styled } from "styled-components";
+// import "./menuStyle.css";
 import { Link } from "react-router-dom";
-
-const ListItem = styled.li<{ selected?: boolean; activeParent?: boolean }>`
+const ListItem = styled.li.attrs((props) => ({
+  className: props.className,
+}))<{ selected?: boolean; activeParent?: boolean }>`
   cursor: pointer;
-  ${({ selected, theme, activeParent }) =>
-    selected
-      ? `
- background-color:red;
- 
-`
-      : ``};
-  ${({ activeParent }) =>
-    activeParent
-      ? `
-      color:red
-      
-      `
-      : ``}
+
+  &.menu-items {
+    position: relative;
+    font-size: 14px;
+
+    a {
+      display: block;
+      font-size: inherit;
+      color: inherit;
+      text-decoration: none;
+    }
+    button {
+      color: inherit;
+      font-size: inherit;
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      width: 100%;
+    }
+    a,
+    button {
+      text-align: left;
+      padding: 0.7rem 1rem;
+    }
+    a:hover,
+    button:hover {
+      background-color: #f2f2f2;
+    }
+  }
 `;
-const ListContainer = styled(Flex)``;
-const List = styled.ul<{ isOpen?: boolean }>`
-  ${({ isOpen }) =>
-    isOpen
-      ? `
-
-
-`
-      : `
-display:none;
-opacity:0;
-
-`}
-  list-style: none;
-  padding: 0;
-  margin: 0;
+const List = styled.ul.attrs((props) => ({
+  className: props.className,
+}))<{ direction?: "row" | "column" }>`
+s
   animation: all 3s fade-in;
+
+  &.menus {
+    display: flex;
+    list-style: none;
+    flex-direction: ${({ direction = "row" }) => direction};
+  
+     a,button {
+    text-align: left;
+    padding: 0.7rem 1rem;
+  }
+  }
+
+  &.dropdown.dropdown-submenu {
+    position: absolute;
+    left: 100%;
+    top: -7px;
+  }
+
+  &.dropdown {
+    position: absolute;
+    // right: 0;
+    // left: auto;
+    font-size: 0.875rem;
+    min-width: 10rem;
+    padding: 0.5rem 0;
+    list-style: none;
+    background-color: #fff;
+    /* border-radius: 0.5rem; */
+    display: none;
+    z-index: 20000000;
+  }
+  &.dropdown.show {
+    display: block;
+  }
 `;
 
-const ItemSubMenus = ({
-  item,
-  isOpen,
-  onClickItem,
-  activeItem,
-}: {
-  item: MenuItem;
-  isOpen: boolean;
-  activeItem: string;
-  onClickItem: (item: string) => () => void;
-}) => {
-  return (
-    <List isOpen={isOpen}>
-      {item?.subMenu?.map((item: MenuItem, index) => (
-        <ListItem
-          key={index}
-          selected={item.path === activeItem}
-          onClick={onClickItem(item.path)}
-        >
-          {item.label}
-        </ListItem>
-      ))}
-    </List>
-  );
-};
 export const Menu: React.FC<MenuProps> = ({ items, onClickItem, active }) => {
   const [activeContainer, setActiveContainer] = useState<number | null>(null);
 
@@ -72,66 +86,35 @@ export const Menu: React.FC<MenuProps> = ({ items, onClickItem, active }) => {
     setActiveContainer((prev) => (prev === index ? null : index));
   };
 
-  if (!items.length) return null;
-  return items?.map((item: MenuItem, index) => {
-    return (
-      // <List isOpen key={index}>
-      //   {item?.subMenu ? (
-      //     <>
-      //       <ListItem
-      //         activeParent={item.subMenu.some(
-      //           (item: MenuItem) => item.path === active
-      //         )}
-      //         onClick={() => handleOpenContainer(index)}
-      //       >
-      //         {item.label}
-      //       </ListItem>
-      //       <ItemSubMenus
-      //         onClickItem={onClickItem}
-      //         item={item}
-      //         isOpen={activeContainer === index}
-      //         activeItem={active}
-      //       />
-      //     </>
-      //   ) : (
-      //     <ListItem
-      //       selected={item.path === active}
-      //       onClick={onClickItem(item.path)}
-      //     >
-      //       {item.label}
-      //     </ListItem>
-      //   )}
-      // </List>
-      <ul className="menus">
-        {items.map((menu, index) => {
-          const depthLevel = 0;
-          return <MenuItems items={menu} key={index} depthLevel={depthLevel} />;
-        })}
-      </ul>
-    );
-  });
+  return (
+    <List className="menus" direction="row">
+      {items.map((menu, index) => {
+        const depthLevel = 0;
+        return <MenuItems items={menu} key={index} depthLevel={depthLevel} />;
+      })}
+    </List>
+  );
 };
 
 const MenuItems = ({ items, depthLevel }: any) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const ref = useRef<any>();
 
-  // useEffect(() => {
-  //   useEffect(() => {
-  //     const handler = (event: any) => {
-  //       if (isOpen && ref.current && !ref.current.contains(event.target)) {
-  //         setIsOpen(false);
-  //       }
-  //     };
-  //     document.addEventListener("mousedown", handler);
-  //     document.addEventListener("touchstart", handler);
-  //     return () => {
-  //       // Cleanup the event listener
-  //       document.removeEventListener("mousedown", handler);
-  //       document.removeEventListener("touchstart", handler);
-  //     };
-  //   }, [isOpen]);
-  // }, []);
+  useEffect(() => {
+    const handler = (event: any) => {
+      if (isOpen && ref.current && !ref.current.contains(event.target)) {
+        // setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    document.addEventListener("touchstart", handler);
+    return () => {
+      // Cleanup the event listener
+      document.removeEventListener("mousedown", handler);
+      document.removeEventListener("touchstart", handler);
+    };
+  }, [isOpen, ref]);
+
   const onMouseEnter = () => {
     window.innerWidth > 960 && setIsOpen(true);
   };
@@ -145,14 +128,13 @@ const MenuItems = ({ items, depthLevel }: any) => {
   };
 
   return (
-    <li
+    <ListItem
       className="menu-items"
       ref={ref}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      onClick={closeDropdown}
+      // onMouseEnter={onMouseEnter}
+      // onMouseLeave={onMouseLeave}
     >
-      {items.path && items.submenu ? (
+      {items.submenu ? (
         <>
           <button
             type="button"
@@ -160,12 +142,7 @@ const MenuItems = ({ items, depthLevel }: any) => {
             aria-expanded={isOpen ? "true" : "false"}
             onClick={() => setIsOpen((prev) => !prev)}
           >
-            {window.innerWidth < 960 && depthLevel === 0 ? (
-              items.label
-            ) : (
-              <Link to={items.url}>{items.title}</Link>
-            )}
-
+            {items.label}
             {depthLevel > 0 && window.innerWidth < 960 ? null : depthLevel >
                 0 && window.innerWidth > 960 ? (
               <span>&raquo;</span>
@@ -176,42 +153,24 @@ const MenuItems = ({ items, depthLevel }: any) => {
           <Dropdown
             depthLevel={depthLevel}
             submenus={items.submenu}
-            isOpen={isOpen}
-          />
-        </>
-      ) : !items.path && items.submenu ? (
-        <>
-          <button
-            type="button"
-            aria-haspopup="menu"
-            aria-expanded={isOpen ? "true" : "false"}
-            onClick={() => setIsOpen((prev) => !prev)}
-          >
-            {items.label}{" "}
-            {depthLevel > 0 ? <span>&raquo;</span> : <span className="arrow" />}
-          </button>
-          <Dropdown
-            depthLevel={depthLevel}
-            submenus={items.submenu}
-            isOpen={isOpen}
+            dropdown={isOpen}
           />
         </>
       ) : (
-        <span>{items.label}</span>
+        <Link to={items.path}>{items.label} </Link>
       )}
-    </li>
+    </ListItem>
   );
 };
-const Dropdown = ({ submenus, isOpen, depthLevel }: any) => {
+export const Dropdown = ({ submenus, dropdown, depthLevel }: any) => {
   depthLevel = depthLevel + 1;
   const dropdownClass = depthLevel > 1 ? "dropdown-submenu" : "";
   return (
-    <ul className={`dropdown ${dropdownClass} ${isOpen ? "show" : ""}`}>
-      {submenus.map((submenu: MenuItem[], index: number) => (
+    <List className={`dropdown ${dropdownClass} ${dropdown ? "show" : ""}`}>
+      {" "}
+      {submenus.map((submenu: any, index: any) => (
         <MenuItems items={submenu} key={index} depthLevel={depthLevel} />
-      ))}
-    </ul>
+      ))}{" "}
+    </List>
   );
 };
-
-export default Dropdown;

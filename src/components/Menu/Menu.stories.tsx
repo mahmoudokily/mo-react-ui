@@ -1,10 +1,25 @@
 import React, { useState } from "react";
 import { Meta, StoryObj } from "@storybook/react";
 import { Menu } from "./";
+import { Flex } from "../Flex";
+import { BrowserRouter, Route, Router } from "react-router-dom";
 
 const meta: Meta<typeof Menu> = {
   component: Menu,
   argTypes: {},
+  parameters: {
+    reactRouter: [
+      {
+        routePath: "/home",
+      },
+      {
+        routePath: "/sessions",
+      },
+      {
+        routePath: "/locations",
+      },
+    ],
+  },
 };
 export default meta;
 
@@ -18,7 +33,11 @@ const MenuElement = (props) => {
     console.log(item);
   };
 
-  return <Menu onClickItem={onClickItem} active={active} {...props} />;
+  return (
+    <Flex position="relative" width={500} bg="#737373">
+      <Menu {...props} />
+    </Flex>
+  );
 };
 export const SubMenu: Story = (args: any) => <MenuElement {...args} />;
 SubMenu.args = {
@@ -31,7 +50,7 @@ SubMenu.args = {
     {
       label: "Sessions",
       path: "Sessions",
-      subMenu: [
+      submenu: [
         {
           label: "sessions",
           path: "/sessions",
@@ -48,7 +67,7 @@ SubMenu.args = {
           path: "/sdrs",
           roles: ["test"],
 
-          subMenu: [
+          submenu: [
             {
               label: "locations",
               path: "/locations",
@@ -64,6 +83,42 @@ SubMenu.args = {
               label: "EVSEs",
               path: "/evses",
               roles: ["test"],
+              submenu: [
+                {
+                  label: "locations",
+                  path: "/locations",
+                  roles: ["test"],
+                  submenu: [
+                    {
+                      label: "locations",
+                      path: "/locations",
+                      roles: ["test"],
+                    },
+                    {
+                      label: "EVCs",
+                      path: "/evcs",
+                      roles: ["test"],
+                    },
+
+                    {
+                      label: "EVSEs",
+                      path: "/evses",
+                      roles: ["test"],
+                    },
+                  ],
+                },
+                {
+                  label: "EVCs",
+                  path: "/evcs",
+                  roles: ["test"],
+                },
+
+                {
+                  label: "EVSEs",
+                  path: "/evses",
+                  roles: ["test"],
+                },
+              ],
             },
           ],
         },
@@ -73,7 +128,7 @@ SubMenu.args = {
       label: "infrastructure",
       path: "",
 
-      subMenu: [
+      submenu: [
         {
           label: "locations",
           path: "/locations",
