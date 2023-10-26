@@ -10,3 +10,4 @@ export * from "./Transition";
 export * from "./Arrow";
 export * from "./CopyToClipboard";
 export * from "./Tooltip";
+export * from "./FixedContainer";

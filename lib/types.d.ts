@@ -1,8 +1,8 @@
 import * as React$1 from 'react';
-import React__default, { HTMLAttributes, ReactNode } from 'react';
+import React__default, { RefObject, HTMLAttributes, ReactNode } from 'react';
 import * as styled_components from 'styled-components';
 import * as styled_system from 'styled-system';
-import { SpaceProps, TypographyProps as TypographyProps$1, LayoutProps, PaddingProps, MarginProps, FlexboxProps, GridProps, BackgroundProps, BordersProps, PositionProps, ShadowProps, SizeProps, BackgroundColorProps } from 'styled-system';
+import { SpaceProps, TypographyProps as TypographyProps$1, LayoutProps, PaddingProps, MarginProps, FlexboxProps, GridProps as GridProps$1, BackgroundProps, BordersProps, PositionProps, ShadowProps, SizeProps, BackgroundColorProps } from 'styled-system';
 import { Options } from 'react-copy-to-clipboard';
 
 interface ThemeVariable<T> {
@@ -253,7 +253,7 @@ declare class CSSHelper {
 }
 type ElementPropValueMethod = (value: any, theme: any) => string;
 
-interface DefaultProps extends SpaceProps, TypographyProps$1, LayoutProps, PaddingProps, MarginProps, FlexboxProps, GridProps, BackgroundProps, BordersProps, PositionProps, ShadowProps, SizeProps, BackgroundColorProps {
+interface DefaultProps extends SpaceProps, TypographyProps$1, LayoutProps, PaddingProps, MarginProps, FlexboxProps, GridProps$1, BackgroundProps, BordersProps, PositionProps, ShadowProps, SizeProps, BackgroundColorProps {
 }
 
 declare const defaultProps: styled_system.styleFn;
@@ -269,6 +269,8 @@ type DefaultValuesProps = {
 };
 
 declare const defaultValues: DefaultValuesProps;
+
+declare const useCloseOnClickAway: (ref: RefObject<HTMLDivElement> | RefObject<HTMLDivElement>[], handler: (event: TouchEvent | MouseEvent) => void, active?: boolean) => void;
 
 interface ButtonProps$1 extends HTMLAttributes<HTMLButtonElement> {
     $variant?: Variant;
@@ -299,96 +301,7 @@ interface WaveEffectProps {
     transitionDuration?: number;
 }
 
-interface FontSizeProps {
-    none: string;
-    xxs: string;
-    xs: string;
-    s: string;
-    m: string;
-    l: string;
-    xl: string;
-    xxl: string;
-    xxxl: string;
-}
-
-interface Typographies {
-    display20: TypographyVariant$1;
-    title40: TypographyVariant$1;
-    title30: TypographyVariant$1;
-    title20: TypographyVariant$1;
-    title10: TypographyVariant$1;
-    body30: TypographyVariant$1;
-    body20: TypographyVariant$1;
-    body10: TypographyVariant$1;
-    caption30: TypographyVariant$1;
-    caption20: TypographyVariant$1;
-    caption10: TypographyVariant$1;
-}
-type TypographyVariant$1 = {
-    fontSize: number;
-    fontWeight: number;
-};
-
-interface FormProps {
-    disabledOpacity: number;
-    radioSpanSpace: string;
-    inputBorder?: string;
-    radioSpanFontSize: ThemeVariable<string>;
-    inputPadding?: ThemeVariable<Coordinator<string>>;
-    inputRadius?: ThemeVariable<string>;
-    inputFontSize?: ThemeVariable<string>;
-    optionPadding?: ThemeVariable<string>;
-    optionMargin?: ThemeVariable<Coordinator<string>>;
-    optionFontSize?: ThemeVariable<string>;
-}
-
-type TooltipProps$1 = {
-    padding: ThemeVariable<Coordinator<string>>;
-    radius: string;
-    fontSize: ThemeVariable<string>;
-};
-
-interface VariantElProps {
-    main: string;
-    font?: string;
-    dark?: string;
-    darker?: string;
-    darkest?: string;
-    light?: string;
-    lighter?: string;
-    lightest?: string;
-    shadow?: string;
-    /**button */
-    button?: {
-        background?: string;
-        placeholder?: string;
-        placeholderFill?: string;
-    };
-    waveEffect?: {
-        color?: string;
-    };
-    form?: {
-        radioColor?: string;
-        radioBorder?: string;
-        inputBackground?: string;
-        inputBorder?: string;
-        inputFont?: string;
-        inputPlaceholder?: string;
-        inputPlaceholderFill?: string;
-        disabledBackgroundColor?: string;
-    };
-}
-
-interface ButtonProps {
-    fixedSize: ThemeVariable<string>;
-    padding: ThemeVariable<Coordinator<string> & {
-        xHalf: string;
-    }>;
-    radius: ThemeVariable<string>;
-    fontSize: ThemeVariable<string>;
-    disabledOpacity?: number;
-    transition?: string;
-}
+declare const theme: any;
 
 interface ColorsProps {
     white: {
@@ -492,30 +405,69 @@ interface ColorsProps {
         FORM_INPUT_DISABLED_BACKGROUND: string;
     };
 }
-type ColorProps = keyof ColorsProps;
 
 declare const colors: ColorsProps;
 
-declare const theme: {
-    colors: ColorsProps;
-    button: ButtonProps;
-    variant: {
-        primary: VariantElProps;
-        secondary: VariantElProps;
-        success: VariantElProps;
-        danger: VariantElProps;
-        warning: VariantElProps;
-        info: VariantElProps;
-        light: VariantElProps;
-        dark: VariantElProps;
-        white: VariantElProps;
-        black: VariantElProps;
+interface ButtonProps {
+    fixedSize: ThemeVariable<string>;
+    padding: ThemeVariable<Coordinator<string> & {
+        xHalf: string;
+    }>;
+    radius: ThemeVariable<string>;
+    fontSize: ThemeVariable<string>;
+    disabledOpacity?: number;
+    transition?: string;
+}
+
+interface VariantElProps {
+    main: string;
+    font?: string;
+    dark?: string;
+    darker?: string;
+    darkest?: string;
+    light?: string;
+    lighter?: string;
+    lightest?: string;
+    shadow?: string;
+    /**button */
+    button?: {
+        background?: string;
+        placeholder?: string;
+        placeholderFill?: string;
     };
-    tooltip: TooltipProps$1;
-    form: FormProps;
-    typography: Typographies;
-    fontSizes: FontSizeProps;
+    waveEffect?: {
+        color?: string;
+    };
+    form?: {
+        radioColor?: string;
+        radioBorder?: string;
+        inputBackground?: string;
+        inputBorder?: string;
+        inputFont?: string;
+        inputPlaceholder?: string;
+        inputPlaceholderFill?: string;
+        disabledBackgroundColor?: string;
+    };
+}
+
+type TooltipProps$1 = {
+    padding: ThemeVariable<Coordinator<string>>;
+    radius: string;
+    fontSize: ThemeVariable<string>;
 };
+
+interface FormProps {
+    disabledOpacity: number;
+    radioSpanSpace: string;
+    inputBorder?: string;
+    radioSpanFontSize: ThemeVariable<string>;
+    inputPadding?: ThemeVariable<Coordinator<string>>;
+    inputRadius?: ThemeVariable<string>;
+    inputFontSize?: ThemeVariable<string>;
+    optionPadding?: ThemeVariable<string>;
+    optionMargin?: ThemeVariable<Coordinator<string>>;
+    optionFontSize?: ThemeVariable<string>;
+}
 
 interface TypographyProps {
     display20: TypographyVariant;
@@ -535,6 +487,70 @@ type TypographyVariant = {
     fontWeight: number;
 };
 
+interface FontSizeProps {
+    none: string;
+    xxs: string;
+    xs: string;
+    s: string;
+    m: string;
+    l: string;
+    xl: string;
+    xxl: string;
+    xxxl: string;
+}
+
+interface BreakPointsProps {
+    xs: string;
+    sm: string;
+    md: string;
+    lg: string;
+    xl: string;
+    xxl: string;
+}
+
+type GridProps = {
+    breakpoint: {
+        small: number;
+        medium: number;
+        large: number;
+        xlarge: number;
+    };
+};
+
+type overlayProps = {
+    space: string;
+    background: string;
+};
+
+type ZIndexProps = {
+    buttonLoading: number;
+    fixedBox: number;
+    loading: number;
+    modal: number;
+    overlay: number;
+    popover: number;
+    routerProgressBar: number;
+    tooltip: number;
+    waveEffect: number;
+};
+
+type Pagination = {
+    padding: Coordinator<string>;
+    margin: Coordinator<string>;
+    fixedSize: string;
+    radius: ThemeVariable<string>;
+    fontSize: string;
+    disabledOpacity: number;
+    transition: string;
+};
+
+type PopoverProps = {
+    radius: string;
+    fontSize: ThemeVariable<string>;
+    headerPadding: ThemeVariable<Coordinator<string>>;
+    bodyPadding: ThemeVariable<Coordinator<string>>;
+};
+
 interface ThemeProps {
     colors: ColorsProps;
     button: ButtonProps;
@@ -543,6 +559,12 @@ interface ThemeProps {
     form: FormProps;
     typography: TypographyProps;
     fontSizes: FontSizeProps;
+    breakpoint: BreakPointsProps;
+    grid: GridProps;
+    overlay: overlayProps;
+    zIndex: ZIndexProps;
+    popover: PopoverProps;
+    pagination: Pagination;
 }
 
 interface BoxProps extends React.HTMLAttributes<HTMLDivElement>, DefaultProps {
@@ -632,25 +654,9 @@ type SvgProps = {
 interface IconElementProps {
 }
 
-interface CssTransitionProps {
-    children: JSX.Element;
-    $status?: boolean;
-    $display?: boolean;
-    $value?: Value;
-    $className: string;
-    $type?: string;
-    $duration?: number;
-    $showAnimation?: boolean;
-    $hideAnimation?: boolean;
-    $beforeShow?: () => Promise<void>;
-    $beforeHide?: () => Promise<void>;
-    $afterShow?: () => void;
-    $afterHide?: () => void;
-}
-
 type TransitionProps = {
     children: JSX.Element;
-    $status?: boolean;
+    $status: boolean;
     $display?: boolean;
     $value?: Value;
     $beforeShow?: () => Promise<void>;
@@ -662,11 +668,6 @@ type TransitionProps = {
     $type?: string;
     $duration?: number;
 };
-interface GlobalStyleProps {
-    idd: number;
-    type: string;
-    duration: number;
-}
 
 declare const SlideTransition: React__default.FC<TransitionProps>;
 
@@ -737,4 +738,25 @@ declare const Tooltip: React__default.FC<TooltipProps>;
 
 declare const TooltipElement: styled_components.IStyledComponent<"web", "div", TProps, never>;
 
-export { ArrowElement, ArrowProps, Box, BoxEl, BoxProps, Button, CSSHelper, ColorHelper, ColorObject, ColorProps, ColorsProps, Coordinator, CopyToClipboard, CopyToClipboardProps, CssTransitionProps, DOMHelper, DefaultProps, DefaultValuesProps, ElementPropValueMethod, Flex, FlexProps, GlobalStyleProps, Grid, IconElementProps, Input, InputContainerProps, InputElProps, InputIconProps, InputProps, JSXElementProps, LoaderProps, SetValue, Shape, SimpleLoader, Size, SizeStrictProps, SlideTransition, SvgProps, TProps, ThemeProps, ThemeVariable, Tooltip, TooltipAttributes, TooltipElement, TooltipPositionResult, TooltipProps, TransitionEl, TransitionProps, TypeOptions, TypographySize, Value, Variant, VariantOptions, WaveEffectProps, colors, defaultProps, defaultValues, theme };
+interface FixedBoxOnRef {
+    setPosition: () => void;
+}
+interface FixedContainerProps {
+    children: [JSX.Element, JSX.Element];
+    boxProps?: JSXElementProps;
+    status: boolean;
+    setStatus: React.Dispatch<React.SetStateAction<boolean>>;
+    minWidth?: number;
+    space?: number;
+    $withShadow?: boolean;
+    transitionClassName?: string;
+    transitionType?: string;
+    transitionDuration?: number;
+    showAnimation?: boolean;
+    hideAnimation?: boolean;
+    onRef?: (args: FixedBoxOnRef) => void;
+}
+
+declare const FixedContainer: React__default.FC<FixedContainerProps>;
+
+export { ArrowElement, ArrowProps, Box, BoxEl, BoxProps, Button, CSSHelper, ColorHelper, ColorObject, Coordinator, CopyToClipboard, CopyToClipboardProps, DOMHelper, DefaultProps, DefaultValuesProps, ElementPropValueMethod, FixedContainer, Flex, FlexProps, Grid, IconElementProps, Input, InputContainerProps, InputElProps, InputIconProps, InputProps, JSXElementProps, LoaderProps, SetValue, Shape, SimpleLoader, Size, SizeStrictProps, SlideTransition, SvgProps, TProps, ThemeProps, ThemeVariable, Tooltip, TooltipAttributes, TooltipElement, TooltipPositionResult, TooltipProps, TransitionEl, TypeOptions, TypographySize, Value, Variant, VariantOptions, WaveEffectProps, colors, defaultProps, defaultValues, theme, useCloseOnClickAway };
