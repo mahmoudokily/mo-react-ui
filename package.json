@@ -79,10 +79,10 @@
     }
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/yourOrganizationOrAccount"
+    "registry": "https://npm.pkg.github.com/mo-react-ui"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mahmoudokily/mo-react-ui"
+    "url": "https://github.com/mahmoudokily/mo-react-ui.get"
   }
 }
