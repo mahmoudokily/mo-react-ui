@@ -1,5 +1,5 @@
 {
-  "name": "mo-react-ui-test",
+  "name": "mo-react-ui",
   "version": "1.0.1",
   "description": "",
   "main": "lib/cjs/index.js",
@@ -9,7 +9,8 @@
     "build": "rollup -c --bundleConfigAsCjs",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "serve-storybook": "serve storybook-static"
+    "serve-storybook": "serve storybook-static",
+    "publish": "npm publish"
   },
   "author": "Mahmoud Okily",
   "license": "ISC",
@@ -76,5 +77,12 @@
     "@rollup/plugin-commonjs": {
       "rollup": "2.78.0"
     }
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/yourOrganizationOrAccount"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mahmoudokily/mo-react-ui"
   }
 }
