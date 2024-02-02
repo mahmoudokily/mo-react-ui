@@ -1,3 +1,4 @@
+/** @format */
 import { VariantOptions } from "../../helpers";
 import { VariantElProps } from "./VariantEl.Props";
 export type VariantsProps = {

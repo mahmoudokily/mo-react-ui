@@ -1,4 +1,6 @@
-import { ColorProps, colors } from "../colors";
+/** @format */
+
+import { colors } from "../colors";
 import {
   ColorHelper,
   ColorObject,

@@ -1,4 +1,6 @@
-import { ColorsProps } from "./Colors.props";
+/** @format */
+
+import { ColorsProps } from "./Colors.types";
 
 export const colors: ColorsProps = {
   primary: {

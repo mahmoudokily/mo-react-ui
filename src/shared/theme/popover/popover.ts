@@ -1,3 +1,5 @@
+/** @format */
+
 import { PopoverProps } from "./Popover.types";
 
 export const popover: PopoverProps = {

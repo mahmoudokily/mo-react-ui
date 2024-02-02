@@ -1,5 +1,6 @@
+/** @format */
 import { ButtonProps } from "./button/Button.types";
-import { ColorsProps } from "./colors/Colors.props";
+import { ColorsProps } from "./colors/Colors.types";
 import { VariantElProps } from "./variant/VariantEl.Props";
 import { TooltipProps } from "./tooltip/tooltip.types";
 import { FormProps } from "./form/Form.types";

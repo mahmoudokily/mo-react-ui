@@ -406,6 +406,8 @@ interface ColorsProps {
     };
 }
 
+/** @format */
+
 declare const colors: ColorsProps;
 
 interface ButtonProps {
@@ -550,6 +552,8 @@ type PopoverProps = {
     headerPadding: ThemeVariable<Coordinator<string>>;
     bodyPadding: ThemeVariable<Coordinator<string>>;
 };
+
+/** @format */
 
 interface ThemeProps {
     colors: ColorsProps;
