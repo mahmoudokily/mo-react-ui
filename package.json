@@ -1,5 +1,5 @@
 {
-  "name": "mo-react-ui",
+  "name": "@momuzio/mo-react-ui",
   "version": "2.0.1",
   "description": "",
   "main": "lib/cjs/index.js",
